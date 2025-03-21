@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자 맞추기 게임</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 50px;
+        }
+        .game-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        input {
+            padding: 10px;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .reset-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>숫자 맞추기 게임</h1>
+        <p>1부터 100까지의 숫자 중 하나를 맞춰보세요!</p>
+        <input type="number" id="userInput" min="1" max="100" placeholder="1부터 100까지의 숫자" />
+        <button onclick="checkGuess()">제출</button>
+        <div class="result" id="resultMessage"></div>
+        <button class="reset-btn" onclick="resetGame()" style="display:none;">게임 다시 시작하기</button>
+    </div>
+
+    <script>
+        // 게임 관련 변수들
+        let targetNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+
+        // 사용자가 숫자를 입력하고 제출했을 때 실행되는 함수
+        function checkGuess() {
+            const userGuess = document.getElementById('userInput').value;
+            const resultMessage = document.getElementById('resultMessage');
+            attempts++;
+
+            if (userGuess < targetNumber) {
+                resultMessage.innerHTML = `너무 낮아요! ${attempts}번째 시도`;
+            } else if (userGuess > targetNumber) {
+                resultMessage.innerHTML = `너무 높아요! ${attempts}번째 시도`;
+            } else {
+                resultMessage.innerHTML = `축하합니다! ${attempts}번째 시도에 맞혔어요!`;
+                document.querySelector('.reset-btn').style.display = 'inline-block'; // 게임 다시 시작 버튼 표시
+                document.querySelector('button').disabled = true; // 제출 버튼 비활성화
+            }
+        }
+
+        // 게임을 리셋하는 함수
+        function resetGame() {
+            targetNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            document.getElementById('userInput').value = '';
+            document.getElementById('resultMessage').innerHTML = '';
+            document.querySelector('.reset-btn').style.display = 'none';
+            document.querySelector('button').disabled = false; // 제출 버튼 활성화
+        }
+    </script>
+</body>
+</html>
